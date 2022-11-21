@@ -1,0 +1,40 @@
+package UI;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+
+public class HighScoresButton extends JButton implements ChangeListener {
+    private String last = "";
+    private MainFrame mainFrame;
+    public HighScoresButton(MainFrame mainFrame){
+        this.mainFrame = mainFrame;
+        setContentAreaFilled(false);
+        setBorderPainted(false);
+        setIcon(new ImageIcon(new ImageIcon("Images/highScores.png").getImage().getScaledInstance(200, 100, Image.SCALE_DEFAULT)));
+        addChangeListener(this);
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        if(getModel().isRollover() && !getModel().isPressed()){
+            setIcon(new ImageIcon(new ImageIcon("Images/highScoresHover.png").getImage().getScaledInstance(200, 100, Image.SCALE_DEFAULT)));
+            if (last.equals("click")){
+                buttonFunc();
+            }
+        }else if(getModel().isPressed()){
+            setIcon(new ImageIcon(new ImageIcon("Images/highScoresClicked.png").getImage().getScaledInstance(200, 100, Image.SCALE_DEFAULT)));
+            last = "click";
+        }else{
+            setIcon(new ImageIcon(new ImageIcon("Images/highScores.png").getImage().getScaledInstance(200, 100, Image.SCALE_DEFAULT)));
+            last = "";
+        }
+    }
+
+    void buttonFunc(){
+        mainFrame.hideMenu();
+        mainFrame.openHighScores();
+    }
+
+}
